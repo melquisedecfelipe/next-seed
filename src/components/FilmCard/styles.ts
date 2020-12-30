@@ -60,7 +60,7 @@ export const ContainerFilmCard = styled.div<FilmCardProps>(
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
       }
     }
