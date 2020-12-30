@@ -1,22 +1,22 @@
-import { useReducer, useEffect } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 
 interface Film {
   id: number
   title: string
-  tiny_overview: string
+  tagline: string
   overview: string
-  runtime: string
+  runtime: number
   release_date: string
   poster_path: string
   backdrop_path: string
-  youtube: string
-  enable: string
+  homepage: string
 }
 
 interface State {
   error: string
   film: Film
   films: [Film]
+  lastPage: string
   loading: boolean
   pages: number
 }
@@ -43,6 +43,10 @@ const actions = {
     ...state,
     loading: false,
     error
+  }),
+  SET_LAST_PAGE: (state: State, { page }) => ({
+    ...state,
+    lastPage: page
   })
 }
 
@@ -52,18 +56,18 @@ const reducer = (state: State, { type, ...params }) => {
 }
 
 const useAPI = (service: any, params?: Params) => {
-  const [{ films, film, error, loading, pages }, dispatch] = useReducer(
-    reducer,
-    {
-      error: null,
-      film: {},
-      films: [],
-      loading: false,
-      pages: 0
-    }
-  )
+  const data = {
+    error: null,
+    film: {},
+    films: [],
+    lastPage: 1,
+    loading: false,
+    pages: 0
+  }
 
-  const fetchMore = async (fetchMoreParams?: Params) => {
+  const [state, dispatch] = useReducer(reducer, data)
+
+  const fetchMore = useCallback(async (fetchMoreParams?: Params) => {
     dispatch({ type: 'FETCH' })
     try {
       const response = await service(fetchMoreParams || params)
@@ -72,13 +76,19 @@ const useAPI = (service: any, params?: Params) => {
     } catch (err) {
       dispatch({ type: 'ERROR', error: err.message })
     }
-  }
+  }, [])
+
+  const setLastPage = useCallback(async (page: number) => {
+    localStorage.setItem('@Refactor:lastPage', page.toString())
+
+    dispatch({ type: 'SET_LAST_PAGE', page })
+  }, [])
 
   useEffect(() => {
     fetchMore()
   }, [])
 
-  return [{ error, film, films, loading, pages }, { fetchMore }]
+  return [state, { fetchMore, setLastPage }]
 }
 
 export default useAPI
