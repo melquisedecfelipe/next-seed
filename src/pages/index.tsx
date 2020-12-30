@@ -28,9 +28,13 @@ export default function Films() {
   const buttons = useMemo(() => 5, [])
 
   useEffect(() => {
-    const page = parseInt(localStorage.getItem('@Refactor:lastPage'))
+    const localStoragePage = parseInt(
+      localStorage.getItem('@Refactor:lastPage')
+    )
 
-    setPage(page)
+    if (localStoragePage) {
+      setPage(localStoragePage)
+    }
   }, [])
 
   useEffect(() => {
