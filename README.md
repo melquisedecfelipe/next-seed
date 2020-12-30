@@ -46,7 +46,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Node
 $ git clone https://github.com/melquisedecfelipe/refactor
 
 # Go into the repository and install dependencies
-$ cd refactor && yar
+$ cd refactor && yarn
 
 # Run backend
 $ yarn dev
