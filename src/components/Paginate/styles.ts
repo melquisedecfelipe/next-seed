@@ -5,7 +5,7 @@ interface PageProps {
   isDisable?: boolean
 }
 
-export const ContainerPaginate = styled.section(
+export const ContainerPaginate = styled.div(
   ({ theme: { colors, size } }) => css`
     display: flex;
     align-items: center;
