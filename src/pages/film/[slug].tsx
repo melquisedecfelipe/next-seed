@@ -30,15 +30,9 @@ interface FilmProps {
 }
 
 export default function Film({ film }: FilmProps) {
-  const [youtube, setYoutube] = useState('')
-
   const router = useRouter()
 
-  const timerConvert = useCallback((timer: number) => {
-    const hours = Math.floor(timer / 60)
-    const minutes = timer % 60
-    return `${hours}h ${minutes < 10 ? `0${minutes}` : minutes}`
-  }, [])
+  const [youtube, setYoutube] = useState('')
 
   useEffect(() => {
     getFilmTrailer({ filmId: film.id }).then(response => {
@@ -47,6 +41,12 @@ export default function Film({ film }: FilmProps) {
       }
     })
   }, [film])
+
+  const timerConvert = useCallback((timer: number) => {
+    const hours = Math.floor(timer / 60)
+    const minutes = timer % 60
+    return `${hours}h ${minutes < 10 ? `0${minutes}` : minutes}`
+  }, [])
 
   if (!film?.id) {
     return <ErrorPage statusCode={404} />
