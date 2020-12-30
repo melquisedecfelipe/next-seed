@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
 import useAPI from '@/hooks/useAPI'
 
@@ -20,28 +20,28 @@ interface Film {
 }
 
 export default function Films() {
-  const buttons = 5
+  const [
+    { films, lastPage, loading, pages: apiTotalPage },
+    { fetchMore, setLastPage }
+  ] = useAPI(getFilmsPaginate)
 
-  const [page, setPage] = useState(1)
   const [pages, setPages] = useState([])
-  const [totalPage, setTotalPage] = useState(0)
 
-  const [{ films, loading, pages: apiPages }, { fetchMore }] = useAPI(
-    getFilmsPaginate,
-    {
-      currentPage: page
-    }
-  )
+  const page = useMemo(() => lastPage, [lastPage])
+  const totalPage = useMemo(() => apiTotalPage, [apiTotalPage])
+  const buttons = useMemo(() => 5, [])
+
+  useEffect(() => {
+    const lastPageStorage = parseInt(localStorage.getItem('@Refactor:lastPage'))
+
+    if (lastPageStorage) setLastPage(lastPageStorage)
+  }, [])
 
   useEffect(() => {
     fetchMore({ currentPage: page })
 
     window.scrollTo(0, 0)
   }, [page])
-
-  useEffect(() => {
-    setTotalPage(apiPages)
-  }, [apiPages])
 
   useEffect(() => {
     let maximumLeft = page - Math.floor(buttons / 2)
@@ -71,13 +71,13 @@ export default function Films() {
   const nextPage = useCallback(() => {
     const enable = page < totalPage - 1
 
-    if (enable) setPage(page + 1)
+    if (enable) setLastPage(page + 1)
   }, [page, totalPage])
 
   const previousPage = useCallback(() => {
     const enable = page >= 1
 
-    if (enable) setPage(page - 1)
+    if (enable) setLastPage(page - 1)
   }, [page, totalPage])
 
   return (
@@ -104,7 +104,7 @@ export default function Films() {
             nextPage={nextPage}
             pages={pages}
             previousPage={previousPage}
-            setPage={setPage}
+            setPage={setLastPage}
           />
         )}
       </FilmsContainer>
