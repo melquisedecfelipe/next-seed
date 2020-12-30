@@ -1,8 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
-import useAPI from '@/hooks/useAPI'
-
-import { getFilmsPaginate } from '@/services/api'
+import { useFilm } from '@/hooks/film'
 
 import { FilmsContainer } from '@/styles/pages/Films'
 
@@ -20,28 +18,20 @@ interface Film {
 }
 
 export default function Films() {
-  const [
-    { films, lastPage, loading, pages: apiTotalPage },
-    { fetchMore, setLastPage }
-  ] = useAPI(getFilmsPaginate)
+  const { films, loading, pages: apiTotalPage, getFilms } = useFilm()
+
+  const [page, setPage] = useState(1)
 
   const [pages, setPages] = useState([])
 
-  const page = useMemo(() => lastPage, [lastPage])
   const totalPage = useMemo(() => apiTotalPage, [apiTotalPage])
   const buttons = useMemo(() => 5, [])
 
   useEffect(() => {
-    const lastPageStorage = parseInt(localStorage.getItem('@Refactor:lastPage'))
+    const page = parseInt(localStorage.getItem('@Refactor:lastPage'))
 
-    if (lastPageStorage) setLastPage(lastPageStorage)
+    setPage(page)
   }, [])
-
-  useEffect(() => {
-    fetchMore({ currentPage: page })
-
-    window.scrollTo(0, 0)
-  }, [page])
 
   useEffect(() => {
     let maximumLeft = page - Math.floor(buttons / 2)
@@ -68,16 +58,28 @@ export default function Films() {
     setPages(totalPages)
   }, [page, totalPage])
 
+  useEffect(() => {
+    getFilms(page)
+
+    window.scrollTo(0, 0)
+  }, [page])
+
+  const goToPage = useCallback((page: number) => {
+    localStorage.setItem('@Refactor:lastPage', page.toString())
+
+    setPage(page)
+  }, [])
+
   const nextPage = useCallback(() => {
     const enable = page < totalPage - 1
 
-    if (enable) setLastPage(page + 1)
+    if (enable) goToPage(page + 1)
   }, [page, totalPage])
 
   const previousPage = useCallback(() => {
     const enable = page >= 1
 
-    if (enable) setLastPage(page - 1)
+    if (enable) goToPage(page - 1)
   }, [page, totalPage])
 
   return (
@@ -94,17 +96,17 @@ export default function Films() {
           {loading ? (
             <h3>Carregando...</h3>
           ) : (
-            films.map((film: Film) => <FilmCard key={films.id} film={film} />)
+            films.map((film: Film) => <FilmCard key={film.id} film={film} />)
           )}
         </section>
 
-        {pages.length > 1 && (
+        {!!pages.length && (
           <Paginate
             currentPage={page}
             nextPage={nextPage}
             pages={pages}
             previousPage={previousPage}
-            setPage={setLastPage}
+            setPage={goToPage}
           />
         )}
       </FilmsContainer>
