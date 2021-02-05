@@ -52,6 +52,11 @@ export const ContainerFilmCard = styled.div<FilmCardProps>(
       > h3 {
         color: ${colors.primary};
         margin: ${size(1)} 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
 
       > p {
