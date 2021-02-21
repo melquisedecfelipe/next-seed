@@ -48,7 +48,7 @@ $ git clone https://github.com/melquisedecfelipe/refactor
 # Go into the repository and install dependencies
 $ cd refactor && yarn
 
-# Run backend
+# Run
 $ yarn dev
 ```
 
