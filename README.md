@@ -1,24 +1,21 @@
-<h1>
-    Refactor
-    <br>
-</h1>
+<h1>Next Seed</h1>
 
 <p>
-  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/melquisedecfelipe/refactor.svg">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/melquisedecfelipe/next-seed.svg">
 
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/melquisedecfelipe/refactor.svg">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/melquisedecfelipe/next-seed.svg">
 
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/melquisedecfelipe/refactor.svg">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/melquisedecfelipe/next-seed.svg">
 
-  <a href="https://github.com/melquisedecfelipe/refactor/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/melquisedecfelipe/refactor.svg">
+  <a href="https://github.com/melquisedecfelipe/next-seed/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/melquisedecfelipe/next-seed.svg">
   </a>
 
-  <a href="https://github.com/melquisedecfelipe/refactor/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/melquisedecfelipe/refactor.svg">
+  <a href="https://github.com/melquisedecfelipe/next-seed/issues">
+    <img alt="Repository issues" src="https://img.shields.io/github/issues/melquisedecfelipe/next-seed.svg">
   </a>
 
-  <img alt="GitHub" src="https://img.shields.io/github/license/melquisedecfelipe/refactor.svg">
+  <img alt="GitHub" src="https://img.shields.io/github/license/melquisedecfelipe/next-seed.svg">
 </p>
 
 <p>
@@ -43,10 +40,10 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Node
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/melquisedecfelipe/refactor
+$ git clone https://github.com/melquisedecfelipe/next-seed
 
 # Go into the repository and install dependencies
-$ cd refactor && yarn
+$ cd next-seed && yarn
 
 # Run
 $ yarn dev
